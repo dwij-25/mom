@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Mother's Day!</title>
   <style>
-    /* RESET & BASE */
-    * { margin:0; padding:0; box-sizing: border-box; }
+    /* reset */
+    * { margin:0; padding:0; box-sizing:border-box; }
     body {
       perspective: 800px;
       font-family: 'Open Sans', sans-serif;
@@ -18,34 +18,29 @@
     h1 {
       text-align: center;
       font-size: 2rem;
-      font-weight: 400;
       color: #d1639f;
       margin: 1.5rem 0;
     }
 
-    /* HEARTS BEHIND EVERYTHING */
+    /* floating hearts */
     .hearts {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100%; height: 100%;
-      z-index: 0;
-      overflow: hidden;
-      pointer-events: none;
+      position: fixed; top:0; left:0;
+      width:100%; height:100%;
+      z-index:0; pointer-events:none; overflow:hidden;
     }
     .heart {
-      position: absolute;
-      width: 16px; height: 16px;
+      position:absolute; width:16px; height:16px;
       background: url('https://upload.wikimedia.org/wikipedia/commons/3/33/Red_Heart.svg') no-repeat center/contain;
       animation: floatHearts linear infinite;
-      opacity: 0.7;
+      opacity:0.7;
     }
     @keyframes floatHearts {
-      0%   { transform: translateY(100vh) scale(0.5); opacity: 0; }
-      50%  { opacity: 1; }
-      100% { transform: translateY(-10vh) scale(1.2); opacity: 0; }
+      0%   { transform: translateY(100vh) scale(0.5); opacity:0 }
+      50%  { opacity:1 }
+      100% { transform: translateY(-10vh) scale(1.2); opacity:0 }
     }
 
-    /* ENVELOPE WRAPPER */
+    /* container */
     #wrap {
       width: 90vw;
       max-width: 530px;
@@ -53,130 +48,91 @@
       position: relative;
       z-index: 1;
     }
-    #letter_wrap {
-      position: relative;
-      overflow: hidden;
-      transition: height 1s ease-in-out;
+    /* invisible checkbox to toggle */
+    .checkbox {
+      position:absolute; top:0; left:0;
+      width:70%; height:70%;
+      opacity:0; cursor:pointer; z-index:10;
     }
 
-    /* BACK OF ENVELOPE */
+    /* envelope pieces */
+    #letter_wrap { position: relative; }
     #back {
-      position: absolute;
-      bottom: 24%;  /* scaled from 128px / 530px */
-      left: 0;
-      width: 100%; height: auto;
-      padding-top: 24.9%; /* 132/530 */
       background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/before1.png') no-repeat center/cover;
+      width:100%; padding-top:24.9%; /* 132/530 */
     }
-
-    /* FLAP */
     #flap {
-      position: absolute;
-      bottom: 12.3%;  /* 65/530 */
-      left: 0;
-      width: 100%; height: 73.6%; /* 390/530 */
+      position:absolute; bottom:12.3%; left:0;
+      width:100%; padding-top:73.6%; /* 390/530 */
       transform-style: preserve-3d;
-      z-index: 5;
-      transition: transform 1.5s 1s linear;
+      transition: transform 1s ease;
+      z-index:5;
     }
     #flap > div {
-      position: absolute; width: 100%; height: 100%;
-      backface-visibility: hidden;
-      background-size: cover;
+      position:absolute; top:0; left:0;
+      width:100%; height:100%; backface-visibility:hidden;
+      background-size:cover;
     }
-    #closed_flap {
-      background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap_closed.png');
-    }
+    #closed_flap { background-image:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap_closed.png'); }
     #open_flap {
-      background-image: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap.png');
+      background-image:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap.png');
       transform: rotateY(-180deg);
     }
-
-    /* FRONT */
     #front {
-      position: absolute;
-      bottom: 0; left: 0;
-      width: 100%; height: 49.1%; /* 260/530 */
       background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/after.png') no-repeat center/cover;
-      background-size: cover;
+      width:100%; padding-top:49.1%; /* 260/530 */
     }
 
-    /* CLICK ZONE */
-    .checkbox {
-      position: absolute; top: 0; left: 0;
-      width: 70%; height: 70%;
-      opacity: 0; cursor: pointer; z-index: 10;
-    }
-
-    /* LETTER */
+    /* letter (hidden below flap) */
     #letter {
-      position: relative;
-      width: 75%;           /* scales down */
-      max-width: 400px;
-      margin: 0 auto;
-      padding: 4% 4% 8%;
-      background: #fffef0;
-      border-radius: 5px;
-      box-shadow: 0 0 3px #aaa, inset 0 0 25px #fff8dc;
-      transition: top 1s ease-in-out 2s;
-      overflow: hidden;
+      position: absolute;
+      width: 75%; max-width:400px;
+      left:50%; transform: translateX(-50%) translateY(100%);
+      padding:20px;
+      background:#fffef0; border-radius:5px;
+      box-shadow:0 0 3px #aaa, inset 0 0 25px #fff8dc;
+      transition: transform 1s ease 0.5s;
+      overflow:hidden;
     }
     #letter p {
-      font-size: 1rem;
-      font-weight: 100;
-      opacity: 0;
-      transition: opacity 1s ease-in-out 2.5s;
+      font-size:1rem;
+      opacity:0; transition: opacity 1s ease 1s;
     }
 
-    /* POLAROID PHOTO */
+    /* polaroid */
     .photo-box {
-      width: 60%;
-      margin: 0 auto 1rem;
-      padding: 0;
-      background: #fff;
-      border: 1px solid #ddd;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      width: 60%; margin:0 auto 1rem;
+      padding-bottom:60%; /* square */
+      background:#fff; border:1px solid #ddd;
+      box-shadow:2px 2px 5px rgba(0,0,0,0.2);
       position: relative;
-      aspect-ratio: 1/1;
+      overflow:hidden;
     }
     .photo-box::after {
-      content: "Mom";
-      position: absolute;
-      bottom: 4px; left: 0; right: 0;
-      text-align: center;
-      font-size: 0.75rem;
-      color: #555;
+      content:"Mom"; position:absolute;
+      bottom:4px; width:100%; text-align:center;
+      font-size:0.75rem; color:#555;
     }
     .photo-box img {
-      width: 100%; height: 100%;
-      object-fit: cover;
-      display: block;
+      position:absolute; top:0; left:0;
+      width:100%; height:100%; object-fit:cover;
     }
 
-    /* OPEN/CLOSED STATES */
-    /* start closed: wrap height = flap bottom + flap height + front height */
-    #letter_wrap { height: 86.4vw; /* 446/530*100vw at max */ }
-    #letter { top: 86.4vw; }         /* same as wrap height */
-    /* when checked */
-    #checkbox:checked + #letter_wrap {
-      height: calc(86.4vw + 70vw);   /* add room for open letter */
-      transition-delay: 0s;
-    }
-    #checkbox:checked + #letter_wrap #flap {
+    /* when checked: open flap + slide letter + fade in text */
+    #checkbox:checked ~ #letter_wrap #flap {
       transform: rotateX(180deg);
-      transition-delay: 0s;
     }
-    #checkbox:checked + #letter_wrap #letter {
-      top: calc(36.7vw);             /* 200/530*100vw */
+    #checkbox:checked ~ #letter_wrap #letter {
+      transform: translateX(-50%) translateY(20%);
     }
-    #checkbox:checked + #letter_wrap #letter p {
-      opacity: 1;
+    #checkbox:checked ~ #letter_wrap #letter p {
+      opacity:1;
     }
 
-    /* MOBILE TWEAKS */
-    @media (max-width: 400px) {
-      h1 { font-size: 1.5rem; margin:1rem 0; }
-      .photo-box { width: 80%; }
+    /* mobile tweaks */
+    @media(max-width:400px){
+      h1 { font-size:1.5rem; }
+      .photo-box { width:80%; padding-bottom:80%; }
     }
   </style>
 </head>
@@ -184,22 +140,21 @@
 
   <h1>Happy Mother's Day!</h1>
 
-  <!-- hearts -->
   <div class="hearts"></div>
   <script>
     const hearts = document.querySelector('.hearts');
-    for (let i = 0; i < 20; i++) {
-      const h = document.createElement('div');
-      h.className = 'heart';
-      h.style.left = Math.random() * 100 + 'vw';
-      h.style.animationDuration = (5 + Math.random()*5) + 's';
-      h.style.animationDelay = (Math.random()*5) + 's';
+    for(let i=0;i<20;i++){
+      let h=document.createElement('div');
+      h.className='heart';
+      h.style.left= Math.random()*100+'vw';
+      h.style.animationDuration= (5+Math.random()*5)+'s';
+      h.style.animationDelay= (Math.random()*5)+'s';
       hearts.appendChild(h);
     }
   </script>
 
   <div id="wrap">
-    <input type="checkbox" id="checkbox" class="checkbox">
+    <input id="checkbox" type="checkbox" class="checkbox">
     <div id="letter_wrap">
       <div id="back"></div>
       <div id="flap">
