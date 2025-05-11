@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Happy Mother's Day!</title>
   <style>
-    /* reset and base styles */
+    /* reset & base styles */
     body, div, h1, p, input, label {
       margin: 0;
       padding: 0;
@@ -14,40 +14,35 @@
       box-sizing: border-box;
     }
     body {
-      -webkit-perspective: 800px;
       perspective: 800px;
-      background-image: linear-gradient(135deg,
-        rgba(157,191,158,0.9) 0%,
-        rgba(81, 152, 114,0.9) 20%,
-        rgba(61,90,128,0.9) 50%,
-        rgba(85,53,85,0.9) 100%);
-      animation: bugfix infinite 1s;
       font-family: 'Open Sans', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(135deg, #e1f4e8, #fce2e7);
     }
-    @keyframes bugfix { from {padding:0;} to {padding:0;} }
-    
+
     h1 {
       font-size: 48px;
       font-weight: 400;
-      color: #ADD3AE;
+      color: #d1639f;
       text-align: center;
       margin: 50px 0;
     }
 
-    /* envelope container */
+    /* envelope setup */
     #wrap {
       width: 530px;
       height: 1000px;
       margin: 20px auto;
+      position: relative;
+      z-index: 1;
     }
     #letter_wrap {
       position: relative;
       height: 446px;
       transition: all 1s ease-in-out;
-      overflow: hidden; /* fixed */
+      overflow: hidden;
     }
 
-    /* back of envelope */
     #back {
       position: absolute;
       bottom: 128px;
@@ -57,7 +52,6 @@
       height: 132px;
     }
 
-    /* flap */
     #flap {
       position: absolute;
       bottom: 65px;
@@ -83,7 +77,6 @@
       transform: rotateY(-180deg);
     }
 
-    /* front of envelope */
     #front {
       position: absolute;
       bottom: 0;
@@ -93,7 +86,6 @@
       height: 260px;
     }
 
-    /* hidden checkbox to trigger open */
     .checkbox {
       position: absolute;
       opacity: 0;
@@ -104,6 +96,7 @@
       z-index: 100;
       cursor: pointer;
     }
+
     #checkbox:checked + #letter_wrap {
       height: 776px;
       top: -200px;
@@ -115,7 +108,6 @@
       z-index: -1;
     }
 
-    /* letter itself */
     #letter {
       position: relative;
       top: 200px;
@@ -123,10 +115,10 @@
       height: 190px;
       margin: 0 auto;
       padding: 20px;
-      background: #ffc url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/letter_bg.png');
+      background: #fffef0;
       border: 1px solid #fff;
-      border-radius: 3px;
-      box-shadow: 0 0 3px #9d9d9d, inset 0 0 27px #fff;
+      border-radius: 5px;
+      box-shadow: 0 0 3px #aaa, inset 0 0 25px #fff8dc;
       transition: all 1s ease-in-out;
       overflow: hidden;
     }
@@ -135,7 +127,6 @@
       transition: all 1s ease-in-out 2s;
     }
 
-    /* letter text */
     #letter p {
       font-size: 20px;
       font-weight: 100;
@@ -146,37 +137,72 @@
       opacity: 1;
     }
 
-    /* polaroid upload placeholder */
-    .polaroid {
-      position: relative;
-      width: 150px;
-      height: 150px;
-      margin: 20px auto;
-      padding: 10px 10px 30px;
-      background: #fff;
-      border: 1px solid #ddd;
-      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
-      text-align: center;
-      font-size: 14px;
-      color: #666;
+    /* reserved photo space */
+ .photo-box {
+  width: 150px;
+  height: 150px;
+  margin: 10px auto 20px;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.05);
+}
+.photo-box img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
     }
-    .polaroid input[type="file"] {
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      opacity: 0;
-      cursor: pointer;
+
+    /* floating hearts animation */
+    .hearts {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      overflow: hidden;
+      pointer-events: none;
     }
-    .polaroid::after {
-      content: "Click to upload photo";
+    .heart {
       position: absolute;
-      bottom: 10px;
-      left: 0; right: 0;
-      font-style: italic;
-      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      background: url('https://upload.wikimedia.org/wikipedia/commons/3/33/Red_Heart.svg') no-repeat center/contain;
+      animation: floatHearts 8s linear infinite;
+      opacity: 0.7;
+    }
+    @keyframes floatHearts {
+      0% {
+        transform: translateY(100vh) scale(0.5);
+        opacity: 0;
+      }
+      50% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(-10vh) scale(1.2);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
+
+  <div class="hearts">
+    <!-- Generate 15 hearts at random positions -->
+    <script>
+      for(let i = 0; i < 15; i++) {
+        const heart = document.createElement('div');
+        heart.className = 'heart';
+        heart.style.left = Math.random() * 100 + 'vw';
+        heart.style.animationDuration = (6 + Math.random() * 4) + 's';
+        heart.style.animationDelay = (Math.random() * 5) + 's';
+        document.querySelector('.hearts').appendChild(heart);
+      }
+    </script>
+  </div>
+
   <div id="wrap">
     <h1>Happy Mother's Day!</h1>
     <input type="checkbox" id="checkbox" class="checkbox">
@@ -188,13 +214,14 @@
         <div id="open_flap"></div>
       </div>
       <div id="letter">
-        <div class="polaroid">
-          <input type="file" accept="image/*">
-        </div>
-        <p>Hi Mom!</p><br>
-        <p>Happy Mother's Day! I hope you have a wonderful day filled with love and spoiling 🥰</p><br>
+    <div class="photo-box">
+      <img src="mom.png" alt="Mom's Photo">
+    </div>
+
+        <p>Hi Mamma!</p><br>
+        <p>Happy Mother's Day! I hope you have a wonderful day filled with love 🥰</p><br>
         <p>Love you lots!</p>
-        <p>Claire</p>
+        <p>Dwij</p>
       </div>
       <div id="front"></div>
     </div>
