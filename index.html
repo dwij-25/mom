@@ -1,195 +1,203 @@
-<div id="wrap">
-		<h1>Happy Mother's Day!</h1>
-		<input type="checkbox" id="checkbox" class="checkbox">
-		<div id="letter_wrap">
-			<label for="checkbox" class="handle" onclick></label>
-			<div id="back"></div>
-			<div id="flap">
-				<div id="closed_flap"></div>
-				<div id="open_flap"></div>
-			</div>
-			<div id="letter">
-        </br>
-        </br>
-        </br>
-				<p>Hi Mom!</p>
-				</br>
-        </br>
-				<p>Happy Mother's Day! I hope you have a wonderful day filled with love and spoiling 🥰</p>
-				</br>
-				</br>
-				<p>Love you lots!</p>
-				<p>Claire</p>
-			</div>
-			<div id="front"></div>
-		</div>
-	</div>
-body, div, h1, h2, form, fieldset, input, textarea, footer, p {
-	margin: 0;
-	padding: 0;
-	border: 0;
-	outline: none;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Mother's Day!</title>
+  <style>
+    /* reset and base styles */
+    body, div, h1, p, input, label {
+      margin: 0;
+      padding: 0;
+      border: 0;
+      outline: none;
+      box-sizing: border-box;
+    }
+    body {
+      -webkit-perspective: 800px;
+      perspective: 800px;
+      background-image: linear-gradient(135deg,
+        rgba(157,191,158,0.9) 0%,
+        rgba(81, 152, 114,0.9) 20%,
+        rgba(61,90,128,0.9) 50%,
+        rgba(85,53,85,0.9) 100%);
+      animation: bugfix infinite 1s;
+      font-family: 'Open Sans', sans-serif;
+    }
+    @keyframes bugfix { from {padding:0;} to {padding:0;} }
+    
+    h1 {
+      font-size: 48px;
+      font-weight: 400;
+      color: #ADD3AE;
+      text-align: center;
+      margin: 50px 0;
+    }
 
-body { 
-  
-	-webkit-perspective:800px;
-    background: rgba(122,129,135,1);
-	background-image: linear-gradient(135deg,
-    rgba(157,191,158,0.9) 0%,
-    rgba(81, 152, 114, 0.9) 20%,
-    rgba(61,90,128,0.9) 50%,
-    rgba(85,53,85,0.9) 100%);
--webkit-animation: bugfix infinite 1s; 
-}
+    /* envelope container */
+    #wrap {
+      width: 530px;
+      height: 1000px;
+      margin: 20px auto;
+    }
+    #letter_wrap {
+      position: relative;
+      height: 446px;
+      transition: all 1s ease-in-out;
+      overflow: hidden; /* fixed */
+    }
 
-@-webkit-keyframes bugfix { 
-  from {padding:0;} 
-  to {padding:0;} 
-}
+    /* back of envelope */
+    #back {
+      position: absolute;
+      bottom: 128px;
+      left: 0;
+      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/before1.png') no-repeat;
+      width: 530px;
+      height: 132px;
+    }
 
-p {
-	font-family: 'Open Sans', sans-serif;
-	font-size: 20px;
-  font-weight: 100;
-	opacity: 0;
-}
+    /* flap */
+    #flap {
+      position: absolute;
+      bottom: 65px;
+      left: 0;
+      width: 530px;
+      height: 390px;
+      transform-style: preserve-3d;
+      z-index: 5;
+      transition: all 1.5s 1s linear;
+    }
+    #flap > div {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+    }
+    #closed_flap {
+      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap_closed.png') no-repeat 0 195px;
+    }
+    #open_flap {
+      top: 195px;
+      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap.png') no-repeat;
+      transform: rotateY(-180deg);
+    }
 
-#wrap{
-	width: 530px;
-	height: 1000px;
-	margin: 20px auto 0;
-}
+    /* front of envelope */
+    #front {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      background: url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/after.png') no-repeat;
+      width: 530px;
+      height: 260px;
+    }
 
-h1{
-	font-family: 'Open Sans', sans-serif;
-	font-size: 48px;
-  font-weight: 400;
-  color: #ADD3AE;
-	margin: 50px 0;
-	text-align: center;
-}
+    /* hidden checkbox to trigger open */
+    .checkbox {
+      position: absolute;
+      opacity: 0;
+      top: 0;
+      left: 0;
+      width: 70%;
+      height: 70%;
+      z-index: 100;
+      cursor: pointer;
+    }
+    #checkbox:checked + #letter_wrap {
+      height: 776px;
+      top: -200px;
+      transition: all 1s ease-in-out 2s;
+    }
+    #checkbox:checked + #letter_wrap > #flap {
+      transform: rotateX(180deg);
+      transition: all 2s linear;
+      z-index: -1;
+    }
 
-#letter_wrap {
-	overlay:hidden;
-	height: 446px;
-	position:relative;
-	top: 0px;
-	-webkit-transition: all 1s ease-in-out;
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
-}
+    /* letter itself */
+    #letter {
+      position: relative;
+      top: 200px;
+      width: 400px;
+      height: 190px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #ffc url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/letter_bg.png');
+      border: 1px solid #fff;
+      border-radius: 3px;
+      box-shadow: 0 0 3px #9d9d9d, inset 0 0 27px #fff;
+      transition: all 1s ease-in-out;
+      overflow: hidden;
+    }
+    #checkbox:checked + #letter_wrap > #letter {
+      height: 520px;
+      transition: all 1s ease-in-out 2s;
+    }
 
-#back {
-	position:absolute;
-	bottom:128px;
-	left:0px;
-	background:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/before1.png');
-	width:530px;
-	height:132px;
-}
+    /* letter text */
+    #letter p {
+      font-size: 20px;
+      font-weight: 100;
+      opacity: 0;
+      transition: opacity 1s ease-in-out 2s;
+    }
+    #checkbox:checked + #letter_wrap > #letter p {
+      opacity: 1;
+    }
 
-#flap{
-	position:absolute;
-	bottom: 65px;
-	left: 0px;
-	width: 530px;
-	height: 390px;
-	-webkit-transform-style:preserve-3d;
-	z-index: 5;
-	-webkit-transition: all 1.5s 1s linear;
-}
-
-#flap>div{
-	backface-visibility: hidden;
-	-webkit-backface-visibility: hidden;
-	display:block;
-	position:absolute;
-	width: 100%;
-	height: 100%;
-}
-
-#open_flap {
-	top:195px;
-	background:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap.png') no-repeat;
-	-webkit-transform: rotateY(-180deg);
-}
-
-#closed_flap {
-	top:0%;
-	background:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/flap_closed.png') no-repeat 0 195px;
-}
-
-
-#front {
-	position:absolute;
-	bottom:0px;
-	left:0px;
-	background:url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/after.png');
-	width:530px;
-	height:260px;
-}
-
-.checkbox{
-	position: absolute;
-	opacity: 0;
-	top:0;
-	left:0;
-	width:70%;
-	height: 70%;
-	z-index: 100;
-}
-
-#checkbox:checked + #letter_wrap {
-	height:776px;
-	top:-200px;
-	-webkit-transition: all 1s ease-in-out 2s;
-	-moz-transition: all 1s ease-in-out 2s;
-	-o-transition: all 1s ease-in-out 2s;
-	transition: all 1s ease-in-out 2s;
-}
-
-#letter {
-	-webkit-transition: all 1s ease-in-out;
-	-moz-transition: all 1s ease-in-out;
-	-o-transition: all 1s ease-in-out;
-	transition: all 1s ease-in-out;
-	background: #ffc url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/144467/letter_bg.png');
-	position: relative;
-	top:200px;
-	overlay: hidden;
-	height: 190px;
-	width: 400px;
-	margin: 0 auto;
-	padding: 20px;
-	border:1px solid #fff;
-	border-radius: 3px;
-	-webkit-box-shadow: 0px 0px 3px #9d9d9d, inset 0px 0px 27px #fff;
-	-moz-box-shadow: 0px 0px 3px #9d9d9d, inset 0px 0px 14px #fff;
-	box-shadow: 0px 0px 3px #9d9d9d, inset 0px 0px 27px #fff;
-}
-
-#checkbox:checked + #letter_wrap>#flap{
-	-webkit-transition: all 2s linear;
-	transform: rotateX(180deg);
-	-webkit-transform: rotateX(180deg);
-	z-index: -1;
-}
-
-#checkbox:checked +#letter_wrap>#letter{
-	height:520px;
-	-webkit-transition: all 1s ease-in-out 2s;
-	-moz-transition: all 1s ease-in-out 2s;
-	-o-transition: all 1s ease-in-out 2s;
-	transition: all 1s ease-in-out 2s;
-}
-
-
-#checkbox:checked +#letter_wrap>#letter>p{
-	opacity: 1;
-	-webkit-transition: opacity 1s ease-in-out 2s;
-	-moz-transition: opacity 1s ease-in-out 2s;
-	-o-transition: opacity 1s ease-in-out 2s;
-	transition: opacity 1s ease-in-out 2s;
-}
+    /* polaroid upload placeholder */
+    .polaroid {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      margin: 20px auto;
+      padding: 10px 10px 30px;
+      background: #fff;
+      border: 1px solid #ddd;
+      box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+    }
+    .polaroid input[type="file"] {
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0;
+      cursor: pointer;
+    }
+    .polaroid::after {
+      content: "Click to upload photo";
+      position: absolute;
+      bottom: 10px;
+      left: 0; right: 0;
+      font-style: italic;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <div id="wrap">
+    <h1>Happy Mother's Day!</h1>
+    <input type="checkbox" id="checkbox" class="checkbox">
+    <div id="letter_wrap">
+      <label for="checkbox" class="handle"></label>
+      <div id="back"></div>
+      <div id="flap">
+        <div id="closed_flap"></div>
+        <div id="open_flap"></div>
+      </div>
+      <div id="letter">
+        <div class="polaroid">
+          <input type="file" accept="image/*">
+        </div>
+        <p>Hi Mom!</p><br>
+        <p>Happy Mother's Day! I hope you have a wonderful day filled with love and spoiling 🥰</p><br>
+        <p>Love you lots!</p>
+        <p>Claire</p>
+      </div>
+      <div id="front"></div>
+    </div>
+  </div>
+</body>
+</html>
